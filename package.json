@@ -13,8 +13,8 @@
     "streaming",
     "asynchronous"
   ],
-  "main": "index.js",
-  "typings": "index",
+  "main": "dist/index.js",
+  "typings": "dist/index.d.ts",
   "repository": "git@github.com:rubensworks/streaming-jsonld-parser.js.git",
   "author": "Ruben Taelman <rubensworks@gmail.com>",
   "funding": {
@@ -27,12 +27,9 @@
   "homepage": "https://github.com/rubensworks/streaming-jsonld-parser.js#readme",
   "license": "MIT",
   "files": [
-    "lib/**/*.d.ts",
-    "lib/**/*.js",
-    "lib/**/*.js.map",
-    "index.d.ts",
-    "index.js.map",
-    "index.js"
+    "dist/**/*.d.ts",
+    "dist/**/*.js",
+    "dist/**/*.js.map"
   ],
   "dependencies": {
     "@bergos/jsonparse": "^1.4.0",
@@ -42,7 +39,7 @@
     "canonicalize": "^1.0.1",
     "http-link-header": "^1.0.2",
     "jsonld-context-parser": "^3.0.0",
-    "rdf-data-factory": "^2.0.0",
+    "rdf-data-factory": "github:rdf-array/rdf-data-factory-array#rdf-sequences",
     "readable-stream": "^4.0.0"
   },
   "pre-commit": [
@@ -114,5 +111,11 @@
     "spec-clean": "rm -r .rdf-test-suite-cache/"
   },
   "sideEffects": false,
-  "packageManager": "yarn@1.22.22+sha512.a6b2f7906b721bba3d67d4aff083df04dad64c399707841b7acf00f6b133b7ac24255f2652fa22ae3534329dc6180534e98d17432037ff6fd140556e2bb3137e"
+  "packageManager": "yarn@1.22.22+sha512.a6b2f7906b721bba3d67d4aff083df04dad64c399707841b7acf00f6b133b7ac24255f2652fa22ae3534329dc6180534e98d17432037ff6fd140556e2bb3137e",
+  "types": "dist/index.d.ts",
+  "resolutions": {
+    "@rdfjs/types": "github:rdf-array/types-array#rdf-sequences",
+    "rdf-data-factory": "github:rdf-array/rdf-data-factory-array#rdf-sequences",
+    "rdf-string": "github:rdf-array/rdf-string-array#rdf-sequences"
+  }
 }

@@ -1,3 +1,17 @@
+<img src=".github/rdf-array-logo.png" alt="[jsonld-streaming-parser]" width="96" align="right">
+
+# jsonld-streaming-parser-array: jsonld-streaming-parser for RDF-
+
+**RDF-** fork of [jsonld-streaming-parser](https://github.com/rubensworks/streaming-jsonld-parser.js): a JSON-LD
+`@list` (or a value of a property with `@container: @list`) becomes one **sequence** term (`termType: "Sequence"`,
+see [rdf-data-factory-array](https://github.com/rdf-array/rdf-data-factory-array)) holding the list's values in
+order, `()` for an empty list, instead of an `rdf:first`/`rdf:rest` ladder ending in `rdf:nil`; nested lists are
+nested sequences. The values are buffered while the list is read and the triple holding the sequence is emitted
+when the list closes, so parsing stays streaming at the granularity of a list. A value that converts to no RDF
+term (for example one with an invalid `@type`) is skipped, where RDF 1.1 left a list node without `rdf:first`.
+The data factory must provide `sequence()`. Part of the [comunica-array](https://github.com/rdf-array/comunica-array)
+stack, whose doc/rdf-array.md lists the sibling forks.
+
 # JSON-LD Streaming Parser
 
 [![Build status](https://github.com/rubensworks/jsonld-streaming-parser.js/workflows/CI/badge.svg)](https://github.com/rubensworks/jsonld-streaming-parser.js/actions?query=workflow%3ACI)

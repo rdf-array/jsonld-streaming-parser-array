@@ -168,15 +168,10 @@ export class EntryHandlerPredicate implements IEntryHandler<boolean> {
             // In that case we just emit it as an RDF list with a single element.
             const listValueContainer = '@list' in Util.getContextValueContainer(context, key);
             if (listValueContainer || value['@list']) {
-              if (((listValueContainer && !Array.isArray(value) && !value['@list'])
-                || (value['@list'] && !Array.isArray(value['@list'])))
-                && object !== util.rdfNil) {
-                const listPointer: RDF.Term = util.dataFactory.blankNode();
-                parsingContext.emitQuad(depth, util.dataFactory.quad(listPointer, util.rdfRest, util.rdfNil,
-                  util.getDefaultGraph()));
-                parsingContext.emitQuad(depth, util.dataFactory.quad(listPointer, util.rdfFirst, object,
-                  util.getDefaultGraph()));
-                object = listPointer;
+              if ((listValueContainer && !Array.isArray(value) && !value['@list'])
+                || (value['@list'] && !Array.isArray(value['@list']))) {
+                // RDF-: the single element becomes a sequence of one
+                object = util.sequence([ object ]);
               }
 
               // Lists are not allowed in @reverse'd properties

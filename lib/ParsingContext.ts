@@ -53,8 +53,8 @@ export class ParsingContext {
   public readonly graphStack: boolean[];
   // Stack of graph overrides when in an @container: @graph
   public readonly graphContainerTermStack: ({ [index: string]: RDF.NamedNode | RDF.BlankNode })[];
-  // Stack of RDF list pointers (for @list)
-  public readonly listPointerStack: ({ value?: RDF.Term, listRootDepth: number, listId: RDF.Term })[];
+  // RDF-: stack of the lists being read (for @list), each buffering its elements until it becomes one sequence term
+  public readonly listPointerStack: ({ elements: RDF.Term[], listRootDepth: number })[];
   // Stack of active contexts
   public readonly contextTree: ContextTree;
   // Stack of flags indicating if the node is a literal

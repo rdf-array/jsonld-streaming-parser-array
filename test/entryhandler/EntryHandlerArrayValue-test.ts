@@ -33,10 +33,9 @@ describe('EntryHandlerArrayValue', () => {
       jest.spyOn(handler, <any> 'handleListElement');
       await handler.handle(parsingContext, util, 0, [ undefined, 'parentKey', '@list', 0 ], "someValue", 3);
       expect((<any> handler).handleListElement).toHaveBeenCalledTimes(1);
-      expect(parsingContext.emittedQuads).toBeRdfIsomorphic([
-        DF.quad(DF.blankNode(), DF.namedNode('http://www.w3.org/1999/02/22-rdf-syntax-ns#first'),
-          DF.literal('someValue')),
-      ]);
+      // RDF-: the element is buffered until the list closes, nothing is emitted yet
+      expect(parsingContext.emittedQuads).toEqual([]);
+      expect(parsingContext.listPointerStack[3]).toEqual({ elements: [ DF.literal('someValue') ], listRootDepth: 1 });
     });
 
     it('an invalid key stack with an object parent key, and not handle the list element', async () => {

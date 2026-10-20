@@ -1802,12 +1802,11 @@ describe('JsonLdParser', () => {
 }`);
           parser = new JsonLdParser({ dataFactory: DF, streamingProfile, allowSubjectList: true });
           return expect(await arrayifyStream(stream.pipe(parser))).toBeRdfIsomorphic([
-            DF.quad(DF.blankNode('b1'), DF.namedNode('http://example/reverse'),
-              DF.namedNode('http://example/foo')),
-            DF.quad(DF.blankNode('b1'), DF.namedNode('http://www.w3.org/1999/02/22-rdf-syntax-ns#first'),
-              DF.literal('http://example/bar')),
-            DF.quad(DF.blankNode('b1'), DF.namedNode('http://www.w3.org/1999/02/22-rdf-syntax-ns#rest'),
-              DF.namedNode('http://www.w3.org/1999/02/22-rdf-syntax-ns#nil')),
+            DF.quad(
+              DF.sequence([ DF.literal('http://example/bar') ]),
+              DF.namedNode('http://example/reverse'),
+              DF.namedNode('http://example/foo'),
+            ),
           ]);
         });
       });
@@ -2446,13 +2445,11 @@ describe('JsonLdParser', () => {
 }`);
             const output = await arrayifyStream(stream.pipe(parser));
             expect(output).toBeRdfIsomorphic([
-              DF.quad(DF.blankNode('l0'), DF.namedNode(Util.RDF + 'first'), DF.literal('a')),
-              DF.quad(DF.blankNode('l0'), DF.namedNode(Util.RDF + 'rest'), DF.blankNode('l1')),
-              DF.quad(DF.blankNode('l1'), DF.namedNode(Util.RDF + 'first'), DF.literal('b')),
-              DF.quad(DF.blankNode('l1'), DF.namedNode(Util.RDF + 'rest'), DF.blankNode('l2')),
-              DF.quad(DF.blankNode('l2'), DF.namedNode(Util.RDF + 'first'), DF.literal('c')),
-              DF.quad(DF.blankNode('l2'), DF.namedNode(Util.RDF + 'rest'), DF.namedNode(Util.RDF + 'nil')),
-              DF.quad(DF.blankNode('a'), DF.namedNode('http://ex.org/pred1'), DF.blankNode('l0')),
+              DF.quad(
+                DF.blankNode('a'),
+                DF.namedNode('http://ex.org/pred1'),
+                DF.sequence([ DF.literal('a'), DF.literal('b'), DF.literal('c') ]),
+              ),
             ]);
           });
 
@@ -2466,13 +2463,11 @@ describe('JsonLdParser', () => {
 }`);
             const output = await arrayifyStream(stream.pipe(parser));
             expect(output).toBeRdfIsomorphic([
-              DF.quad(DF.blankNode('l0'), DF.namedNode(Util.RDF + 'first'), DF.literal('a')),
-              DF.quad(DF.blankNode('l0'), DF.namedNode(Util.RDF + 'rest'), DF.blankNode('l1')),
-              DF.quad(DF.blankNode('l1'), DF.namedNode(Util.RDF + 'first'), DF.literal('b')),
-              DF.quad(DF.blankNode('l1'), DF.namedNode(Util.RDF + 'rest'), DF.blankNode('l2')),
-              DF.quad(DF.blankNode('l2'), DF.namedNode(Util.RDF + 'first'), DF.literal('c')),
-              DF.quad(DF.blankNode('l2'), DF.namedNode(Util.RDF + 'rest'), DF.namedNode(Util.RDF + 'nil')),
-              DF.quad(DF.blankNode('a'), DF.namedNode('http://ex.org/pred1'), DF.blankNode('l0')),
+              DF.quad(
+                DF.blankNode('a'),
+                DF.namedNode('http://ex.org/pred1'),
+                DF.sequence([ DF.literal('a'), DF.literal('b'), DF.literal('c') ]),
+              ),
             ]);
           });
 
@@ -2483,7 +2478,7 @@ describe('JsonLdParser', () => {
 }`);
             const output = await arrayifyStream(stream.pipe(parser));
             expect(output).toBeRdfIsomorphic([
-              DF.quad(DF.blankNode(), DF.namedNode('http://ex.org/pred1'), DF.namedNode(Util.RDF + 'nil')),
+              DF.quad(DF.blankNode(), DF.namedNode('http://ex.org/pred1'), DF.sequence([])),
             ]);
           });
 
@@ -2497,7 +2492,7 @@ describe('JsonLdParser', () => {
 }`);
             const output = await arrayifyStream(stream.pipe(parser));
             expect(output).toBeRdfIsomorphic([
-              DF.quad(DF.blankNode(), DF.namedNode('http://ex.org/pred1'), DF.namedNode(Util.RDF + 'nil')),
+              DF.quad(DF.blankNode(), DF.namedNode('http://ex.org/pred1'), DF.sequence([])),
             ]);
           });
 
@@ -2509,13 +2504,11 @@ describe('JsonLdParser', () => {
 }`);
             const output = await arrayifyStream(stream.pipe(parser));
             expect(output).toBeRdfIsomorphic([
-              DF.quad(DF.blankNode('l0'), DF.namedNode(Util.RDF + 'first'), DF.literal('a')),
-              DF.quad(DF.blankNode('l0'), DF.namedNode(Util.RDF + 'rest'), DF.blankNode('l1')),
-              DF.quad(DF.blankNode('l1'), DF.namedNode(Util.RDF + 'first'), DF.literal('b')),
-              DF.quad(DF.blankNode('l1'), DF.namedNode(Util.RDF + 'rest'), DF.blankNode('l2')),
-              DF.quad(DF.blankNode('l2'), DF.namedNode(Util.RDF + 'first'), DF.literal('c')),
-              DF.quad(DF.blankNode('l2'), DF.namedNode(Util.RDF + 'rest'), DF.namedNode(Util.RDF + 'nil')),
-              DF.quad(DF.namedNode('http://ex.org/myid'), DF.namedNode('http://ex.org/pred1'), DF.blankNode('l0')),
+              DF.quad(
+                DF.namedNode('http://ex.org/myid'),
+                DF.namedNode('http://ex.org/pred1'),
+                DF.sequence([ DF.literal('a'), DF.literal('b'), DF.literal('c') ]),
+              ),
             ]);
           });
 
@@ -2530,13 +2523,11 @@ describe('JsonLdParser', () => {
 }`);
             const output = await arrayifyStream(stream.pipe(parser));
             expect(output).toBeRdfIsomorphic([
-              DF.quad(DF.blankNode('l0'), DF.namedNode(Util.RDF + 'first'), DF.literal('a')),
-              DF.quad(DF.blankNode('l0'), DF.namedNode(Util.RDF + 'rest'), DF.blankNode('l1')),
-              DF.quad(DF.blankNode('l1'), DF.namedNode(Util.RDF + 'first'), DF.literal('b')),
-              DF.quad(DF.blankNode('l1'), DF.namedNode(Util.RDF + 'rest'), DF.blankNode('l2')),
-              DF.quad(DF.blankNode('l2'), DF.namedNode(Util.RDF + 'first'), DF.literal('c')),
-              DF.quad(DF.blankNode('l2'), DF.namedNode(Util.RDF + 'rest'), DF.namedNode(Util.RDF + 'nil')),
-              DF.quad(DF.namedNode('http://ex.org/myid'), DF.namedNode('http://ex.org/pred1'), DF.blankNode('l0')),
+              DF.quad(
+                DF.namedNode('http://ex.org/myid'),
+                DF.namedNode('http://ex.org/pred1'),
+                DF.sequence([ DF.literal('a'), DF.literal('b'), DF.literal('c') ]),
+              ),
             ]);
           });
 
@@ -2548,8 +2539,7 @@ describe('JsonLdParser', () => {
 }`);
             const output = await arrayifyStream(stream.pipe(parser));
             expect(output).toBeRdfIsomorphic([
-              DF.quad(DF.namedNode('http://ex.org/myid'), DF.namedNode('http://ex.org/pred1'),
-                DF.namedNode(Util.RDF + 'nil')),
+              DF.quad(DF.namedNode('http://ex.org/myid'), DF.namedNode('http://ex.org/pred1'), DF.sequence([])),
             ]);
           });
 
@@ -2564,8 +2554,7 @@ describe('JsonLdParser', () => {
 }`);
             const output = await arrayifyStream(stream.pipe(parser));
             expect(output).toBeRdfIsomorphic([
-              DF.quad(DF.namedNode('http://ex.org/myid'), DF.namedNode('http://ex.org/pred1'),
-                DF.namedNode(Util.RDF + 'nil')),
+              DF.quad(DF.namedNode('http://ex.org/myid'), DF.namedNode('http://ex.org/pred1'), DF.sequence([])),
             ]);
           });
 
@@ -2577,13 +2566,11 @@ describe('JsonLdParser', () => {
 }`);
             const output = await arrayifyStream(stream.pipe(parser));
             expect(output).toBeRdfIsomorphic([
-              DF.quad(DF.blankNode('l0'), DF.namedNode(Util.RDF + 'first'), DF.literal('a')),
-              DF.quad(DF.blankNode('l0'), DF.namedNode(Util.RDF + 'rest'), DF.blankNode('l1')),
-              DF.quad(DF.blankNode('l1'), DF.namedNode(Util.RDF + 'first'), DF.literal('b')),
-              DF.quad(DF.blankNode('l1'), DF.namedNode(Util.RDF + 'rest'), DF.blankNode('l2')),
-              DF.quad(DF.blankNode('l2'), DF.namedNode(Util.RDF + 'first'), DF.literal('c')),
-              DF.quad(DF.blankNode('l2'), DF.namedNode(Util.RDF + 'rest'), DF.namedNode(Util.RDF + 'nil')),
-              DF.quad(DF.namedNode('http://ex.org/myid'), DF.namedNode('http://ex.org/pred1'), DF.blankNode('l0')),
+              DF.quad(
+                DF.namedNode('http://ex.org/myid'),
+                DF.namedNode('http://ex.org/pred1'),
+                DF.sequence([ DF.literal('a'), DF.literal('b'), DF.literal('c') ]),
+              ),
             ]);
           });
 
@@ -2598,8 +2585,7 @@ describe('JsonLdParser', () => {
 }`);
             const output = await arrayifyStream(stream.pipe(parser));
             expect(output).toBeRdfIsomorphic([
-              DF.quad(DF.namedNode('http://ex.org/myid'), DF.namedNode('http://ex.org/pred1'),
-                DF.namedNode(Util.RDF + 'nil')),
+              DF.quad(DF.namedNode('http://ex.org/myid'), DF.namedNode('http://ex.org/pred1'), DF.sequence([])),
             ]);
           });
 
@@ -2614,13 +2600,11 @@ describe('JsonLdParser', () => {
 }`);
             const output = await arrayifyStream(stream.pipe(parser));
             expect(output).toBeRdfIsomorphic([
-              DF.quad(DF.blankNode('l0'), DF.namedNode(Util.RDF + 'first'), DF.literal('a')),
-              DF.quad(DF.blankNode('l0'), DF.namedNode(Util.RDF + 'rest'), DF.blankNode('l1')),
-              DF.quad(DF.blankNode('l1'), DF.namedNode(Util.RDF + 'first'), DF.literal('b')),
-              DF.quad(DF.blankNode('l1'), DF.namedNode(Util.RDF + 'rest'), DF.blankNode('l2')),
-              DF.quad(DF.blankNode('l2'), DF.namedNode(Util.RDF + 'first'), DF.literal('c')),
-              DF.quad(DF.blankNode('l2'), DF.namedNode(Util.RDF + 'rest'), DF.namedNode(Util.RDF + 'nil')),
-              DF.quad(DF.namedNode('http://ex.org/myid'), DF.namedNode('http://ex.org/pred1'), DF.blankNode('l0')),
+              DF.quad(
+                DF.namedNode('http://ex.org/myid'),
+                DF.namedNode('http://ex.org/pred1'),
+                DF.sequence([ DF.literal('a'), DF.literal('b'), DF.literal('c') ]),
+              ),
             ]);
           });
 
@@ -2648,8 +2632,7 @@ describe('JsonLdParser', () => {
 }`);
             const output = await arrayifyStream(stream.pipe(parser));
             expect(output).toBeRdfIsomorphic([
-              DF.quad(DF.namedNode('http://ex.org/myid'), DF.namedNode('http://ex.org/pred1'),
-                DF.namedNode(Util.RDF + 'nil')),
+              DF.quad(DF.namedNode('http://ex.org/myid'), DF.namedNode('http://ex.org/pred1'), DF.sequence([])),
             ]);
           });
 
@@ -2664,13 +2647,11 @@ describe('JsonLdParser', () => {
 }`);
             const output = await arrayifyStream(stream.pipe(parser));
             expect(output).toBeRdfIsomorphic([
-              DF.quad(DF.blankNode('l0'), DF.namedNode(Util.RDF + 'first'), DF.literal('a')),
-              DF.quad(DF.blankNode('l0'), DF.namedNode(Util.RDF + 'rest'), DF.blankNode('l1')),
-              DF.quad(DF.blankNode('l1'), DF.namedNode(Util.RDF + 'first'), DF.literal('b')),
-              DF.quad(DF.blankNode('l1'), DF.namedNode(Util.RDF + 'rest'), DF.blankNode('l2')),
-              DF.quad(DF.blankNode('l2'), DF.namedNode(Util.RDF + 'first'), DF.literal('c')),
-              DF.quad(DF.blankNode('l2'), DF.namedNode(Util.RDF + 'rest'), DF.namedNode(Util.RDF + 'nil')),
-              DF.quad(DF.namedNode('http://ex.org/myid'), DF.namedNode('http://ex.org/pred1'), DF.blankNode('l0')),
+              DF.quad(
+                DF.namedNode('http://ex.org/myid'),
+                DF.namedNode('http://ex.org/pred1'),
+                DF.sequence([ DF.literal('a'), DF.literal('b'), DF.literal('c') ]),
+              ),
             ]);
           });
 
@@ -2685,8 +2666,7 @@ describe('JsonLdParser', () => {
 }`);
             const output = await arrayifyStream(stream.pipe(parser));
             expect(output).toBeRdfIsomorphic([
-              DF.quad(DF.namedNode('http://ex.org/myid'), DF.namedNode('http://ex.org/pred1'),
-                DF.namedNode(Util.RDF + 'nil')),
+              DF.quad(DF.namedNode('http://ex.org/myid'), DF.namedNode('http://ex.org/pred1'), DF.sequence([])),
             ]);
           });
 
@@ -2698,13 +2678,11 @@ describe('JsonLdParser', () => {
 }`);
             const output = await arrayifyStream(stream.pipe(parser));
             expect(output).toBeRdfIsomorphic([
-              DF.quad(DF.blankNode('l0'), DF.namedNode(Util.RDF + 'first'), DF.literal('a')),
-              DF.quad(DF.blankNode('l0'), DF.namedNode(Util.RDF + 'rest'), DF.blankNode('l1')),
-              DF.quad(DF.blankNode('l1'), DF.namedNode(Util.RDF + 'first'), DF.literal('b')),
-              DF.quad(DF.blankNode('l1'), DF.namedNode(Util.RDF + 'rest'), DF.blankNode('l2')),
-              DF.quad(DF.blankNode('l2'), DF.namedNode(Util.RDF + 'first'), DF.literal('c')),
-              DF.quad(DF.blankNode('l2'), DF.namedNode(Util.RDF + 'rest'), DF.namedNode(Util.RDF + 'nil')),
-              DF.quad(DF.namedNode('http://ex.org/myid'), DF.namedNode('http://ex.org/pred1'), DF.blankNode('l0')),
+              DF.quad(
+                DF.namedNode('http://ex.org/myid'),
+                DF.namedNode('http://ex.org/pred1'),
+                DF.sequence([ DF.literal('a'), DF.literal('b'), DF.literal('c') ]),
+              ),
             ]);
           });
 
@@ -2719,12 +2697,11 @@ describe('JsonLdParser', () => {
 }`);
             const output = await arrayifyStream(stream.pipe(parser));
             expect(output).toBeRdfIsomorphic([
-              DF.quad(DF.namedNode('http://ex.org/myid'), DF.namedNode('http://ex.org/pred1'),
-                DF.blankNode('l')),
-              DF.quad(DF.blankNode('l'), DF.namedNode(Util.RDF + 'first'),
-                DF.literal('value', DF.namedNode('http://ex.org/datatype'))),
-              DF.quad(DF.blankNode('l'), DF.namedNode(Util.RDF + 'rest'),
-                DF.namedNode(Util.RDF + 'nil')),
+              DF.quad(
+                DF.namedNode('http://ex.org/myid'),
+                DF.namedNode('http://ex.org/pred1'),
+                DF.sequence([ DF.literal('value', DF.namedNode('http://ex.org/datatype')) ]),
+              ),
             ]);
           });
 
@@ -2739,8 +2716,7 @@ describe('JsonLdParser', () => {
 }`);
             const output = await arrayifyStream(stream.pipe(parser));
             expect(output).toBeRdfIsomorphic([
-              DF.quad(DF.namedNode('http://ex.org/myid'), DF.namedNode('http://ex.org/pred1'),
-                DF.namedNode(Util.RDF + 'nil')),
+              DF.quad(DF.namedNode('http://ex.org/myid'), DF.namedNode('http://ex.org/pred1'), DF.sequence([])),
             ]);
           });
 
@@ -2755,8 +2731,7 @@ describe('JsonLdParser', () => {
 }`);
             const output = await arrayifyStream(stream.pipe(parser));
             expect(output).toBeRdfIsomorphic([
-              DF.quad(DF.namedNode('http://ex.org/myid'), DF.namedNode('http://ex.org/pred1'),
-                DF.namedNode(Util.RDF + 'nil')),
+              DF.quad(DF.namedNode('http://ex.org/myid'), DF.namedNode('http://ex.org/pred1'), DF.sequence([])),
             ]);
           });
 
@@ -2772,10 +2747,7 @@ describe('JsonLdParser', () => {
 }`);
             const output = await arrayifyStream(stream.pipe(parser));
             expect(output).toBeRdfIsomorphic([
-              DF.quad(DF.namedNode('http://ex.org/myid'), DF.namedNode('http://ex.org/pred1'),
-                DF.blankNode('l')),
-              DF.quad(DF.blankNode('l'), DF.namedNode(Util.RDF + 'rest'),
-                DF.namedNode(Util.RDF + 'nil')),
+              DF.quad(DF.namedNode('http://ex.org/myid'), DF.namedNode('http://ex.org/pred1'), DF.sequence([])),
             ]);
           });
         });
@@ -2788,13 +2760,11 @@ describe('JsonLdParser', () => {
 }`);
             const output = await arrayifyStream(stream.pipe(parser));
             return expect(output).toBeRdfIsomorphic([
-              DF.quad(DF.blankNode('l0'), DF.namedNode(Util.RDF + 'first'), DF.literal('a')),
-              DF.quad(DF.blankNode('l0'), DF.namedNode(Util.RDF + 'rest'), DF.blankNode('l1')),
-              DF.quad(DF.blankNode('l1'), DF.namedNode(Util.RDF + 'first'), DF.literal('b')),
-              DF.quad(DF.blankNode('l1'), DF.namedNode(Util.RDF + 'rest'), DF.blankNode('l2')),
-              DF.quad(DF.blankNode('l2'), DF.namedNode(Util.RDF + 'first'), DF.literal('c')),
-              DF.quad(DF.blankNode('l2'), DF.namedNode(Util.RDF + 'rest'), DF.namedNode(Util.RDF + 'nil')),
-              DF.quad(DF.blankNode('a'), DF.namedNode('http://ex.org/pred1'), DF.blankNode('l0')),
+              DF.quad(
+                DF.blankNode('a'),
+                DF.namedNode('http://ex.org/pred1'),
+                DF.sequence([ DF.literal('a'), DF.literal('b'), DF.literal('c') ]),
+              ),
             ]);
           });
         });
@@ -2808,17 +2778,11 @@ describe('JsonLdParser', () => {
 }`);
             const output = await arrayifyStream(stream.pipe(parser));
             return expect(output).toBeRdfIsomorphic([
-              DF.quad(DF.blankNode('lr0'), DF.namedNode(Util.RDF + 'first'), DF.blankNode('l0')),
-              DF.quad(DF.blankNode('lr0'), DF.namedNode(Util.RDF + 'rest'), DF.namedNode(Util.RDF + 'nil')),
-
-              DF.quad(DF.blankNode('l0'), DF.namedNode(Util.RDF + 'first'), DF.literal('a')),
-              DF.quad(DF.blankNode('l0'), DF.namedNode(Util.RDF + 'rest'), DF.blankNode('l1')),
-              DF.quad(DF.blankNode('l1'), DF.namedNode(Util.RDF + 'first'), DF.literal('b')),
-              DF.quad(DF.blankNode('l1'), DF.namedNode(Util.RDF + 'rest'), DF.blankNode('l2')),
-              DF.quad(DF.blankNode('l2'), DF.namedNode(Util.RDF + 'first'), DF.literal('c')),
-              DF.quad(DF.blankNode('l2'), DF.namedNode(Util.RDF + 'rest'), DF.namedNode(Util.RDF + 'nil')),
-
-              DF.quad(DF.blankNode('a'), DF.namedNode('http://ex.org/pred1'), DF.blankNode('lr0')),
+              DF.quad(
+                DF.blankNode('a'),
+                DF.namedNode('http://ex.org/pred1'),
+                DF.sequence([ DF.sequence([ DF.literal('a'), DF.literal('b'), DF.literal('c') ]) ]),
+              ),
             ]);
           });
         });
@@ -2831,13 +2795,11 @@ describe('JsonLdParser', () => {
 }`);
             const output = await arrayifyStream(stream.pipe(parser));
             return expect(output).toBeRdfIsomorphic([
-              DF.quad(DF.blankNode('lr0'), DF.namedNode(Util.RDF + 'first'), DF.blankNode('l0')),
-              DF.quad(DF.blankNode('lr0'), DF.namedNode(Util.RDF + 'rest'), DF.namedNode(Util.RDF + 'nil')),
-
-              DF.quad(DF.blankNode('l0'), DF.namedNode(Util.RDF + 'first'), DF.literal('baz')),
-              DF.quad(DF.blankNode('l0'), DF.namedNode(Util.RDF + 'rest'), DF.namedNode(Util.RDF + 'nil')),
-
-              DF.quad(DF.blankNode('a'), DF.namedNode('http://example.com/foo'), DF.blankNode('lr0')),
+              DF.quad(
+                DF.blankNode('a'),
+                DF.namedNode('http://example.com/foo'),
+                DF.sequence([ DF.sequence([ DF.literal('baz') ]) ]),
+              ),
             ]);
           });
 
@@ -2848,15 +2810,11 @@ describe('JsonLdParser', () => {
 }`);
             const output = await arrayifyStream(stream.pipe(parser));
             return expect(output).toBeRdfIsomorphic([
-              DF.quad(DF.blankNode('lr0'), DF.namedNode(Util.RDF + 'first'), DF.blankNode('l0')),
-              DF.quad(DF.blankNode('lr0'), DF.namedNode(Util.RDF + 'rest'), DF.namedNode(Util.RDF + 'nil')),
-
-              DF.quad(DF.blankNode('l0'), DF.namedNode(Util.RDF + 'first'), DF.literal('baz1')),
-              DF.quad(DF.blankNode('l0'), DF.namedNode(Util.RDF + 'rest'), DF.blankNode('l1')),
-              DF.quad(DF.blankNode('l1'), DF.namedNode(Util.RDF + 'first'), DF.literal('baz2')),
-              DF.quad(DF.blankNode('l1'), DF.namedNode(Util.RDF + 'rest'), DF.namedNode(Util.RDF + 'nil')),
-
-              DF.quad(DF.blankNode('a'), DF.namedNode('http://example.com/foo'), DF.blankNode('lr0')),
+              DF.quad(
+                DF.blankNode('a'),
+                DF.namedNode('http://example.com/foo'),
+                DF.sequence([ DF.sequence([ DF.literal('baz1'), DF.literal('baz2') ]) ]),
+              ),
             ]);
           });
 
@@ -2870,18 +2828,11 @@ describe('JsonLdParser', () => {
 }`);
             const output = await arrayifyStream(stream.pipe(parser));
             return expect(output).toBeRdfIsomorphic([
-              DF.quad(DF.blankNode('l0.a'), DF.namedNode(Util.RDF + 'first'), DF.blankNode('l0.0.a')),
-              DF.quad(DF.blankNode('l0.a'), DF.namedNode(Util.RDF + 'rest'), DF.blankNode('l0.b')),
-              DF.quad(DF.blankNode('l0.b'), DF.namedNode(Util.RDF + 'first'), DF.blankNode('l0.1.a')),
-              DF.quad(DF.blankNode('l0.b'), DF.namedNode(Util.RDF + 'rest'), DF.namedNode(Util.RDF + 'nil')),
-
-              DF.quad(DF.blankNode('l0.0.a'), DF.namedNode(Util.RDF + 'first'), DF.literal('baz1')),
-              DF.quad(DF.blankNode('l0.0.a'), DF.namedNode(Util.RDF + 'rest'), DF.namedNode(Util.RDF + 'nil')),
-
-              DF.quad(DF.blankNode('l0.1.a'), DF.namedNode(Util.RDF + 'first'), DF.literal('baz2')),
-              DF.quad(DF.blankNode('l0.1.a'), DF.namedNode(Util.RDF + 'rest'), DF.namedNode(Util.RDF + 'nil')),
-
-              DF.quad(DF.blankNode('a'), DF.namedNode('http://example.com/foo'), DF.blankNode('l0.a')),
+              DF.quad(
+                DF.blankNode('a'),
+                DF.namedNode('http://example.com/foo'),
+                DF.sequence([ DF.sequence([ DF.literal('baz1') ]), DF.sequence([ DF.literal('baz2') ]) ]),
+              ),
             ]);
           });
 
@@ -2895,22 +2846,14 @@ describe('JsonLdParser', () => {
 }`);
             const output = await arrayifyStream(stream.pipe(parser));
             return expect(output).toBeRdfIsomorphic([
-              DF.quad(DF.blankNode('l0.a'), DF.namedNode(Util.RDF + 'first'), DF.blankNode('l0.0.a')),
-              DF.quad(DF.blankNode('l0.a'), DF.namedNode(Util.RDF + 'rest'), DF.blankNode('l0.b')),
-              DF.quad(DF.blankNode('l0.b'), DF.namedNode(Util.RDF + 'first'), DF.blankNode('l0.1.a')),
-              DF.quad(DF.blankNode('l0.b'), DF.namedNode(Util.RDF + 'rest'), DF.namedNode(Util.RDF + 'nil')),
-
-              DF.quad(DF.blankNode('l0.0.a'), DF.namedNode(Util.RDF + 'first'), DF.literal('baz1.1')),
-              DF.quad(DF.blankNode('l0.0.a'), DF.namedNode(Util.RDF + 'rest'), DF.blankNode('l0.0.b')),
-              DF.quad(DF.blankNode('l0.0.b'), DF.namedNode(Util.RDF + 'first'), DF.literal('baz1.2')),
-              DF.quad(DF.blankNode('l0.0.b'), DF.namedNode(Util.RDF + 'rest'), DF.namedNode(Util.RDF + 'nil')),
-
-              DF.quad(DF.blankNode('l0.1.a'), DF.namedNode(Util.RDF + 'first'), DF.literal('baz2.1')),
-              DF.quad(DF.blankNode('l0.1.a'), DF.namedNode(Util.RDF + 'rest'), DF.blankNode('l0.1.b')),
-              DF.quad(DF.blankNode('l0.1.b'), DF.namedNode(Util.RDF + 'first'), DF.literal('baz2.2')),
-              DF.quad(DF.blankNode('l0.1.b'), DF.namedNode(Util.RDF + 'rest'), DF.namedNode(Util.RDF + 'nil')),
-
-              DF.quad(DF.blankNode('a'), DF.namedNode('http://example.com/foo'), DF.blankNode('l0.a')),
+              DF.quad(
+                DF.blankNode('a'),
+                DF.namedNode('http://example.com/foo'),
+                DF.sequence([
+                  DF.sequence([ DF.literal('baz1.1'), DF.literal('baz1.2') ]),
+                  DF.sequence([ DF.literal('baz2.1'), DF.literal('baz2.2') ]),
+                ]),
+              ),
             ]);
           });
 
@@ -2921,10 +2864,7 @@ describe('JsonLdParser', () => {
 }`);
             const output = await arrayifyStream(stream.pipe(parser));
             return expect(output).toBeRdfIsomorphic([
-              DF.quad(DF.blankNode('lr0'), DF.namedNode(Util.RDF + 'first'), DF.namedNode(Util.RDF + 'nil')),
-              DF.quad(DF.blankNode('lr0'), DF.namedNode(Util.RDF + 'rest'), DF.namedNode(Util.RDF + 'nil')),
-
-              DF.quad(DF.blankNode('a'), DF.namedNode('http://example.com/foo'), DF.blankNode('lr0')),
+              DF.quad(DF.blankNode('a'), DF.namedNode('http://example.com/foo'), DF.sequence([ DF.sequence([]) ])),
             ]);
           });
 
@@ -2935,15 +2875,11 @@ describe('JsonLdParser', () => {
 }`);
             const output = await arrayifyStream(stream.pipe(parser));
             return expect(output).toBeRdfIsomorphic([
-              DF.quad(DF.blankNode('lr0'), DF.namedNode(Util.RDF + 'first'), DF.blankNode('l0')),
-              DF.quad(DF.blankNode('lr0'), DF.namedNode(Util.RDF + 'rest'), DF.blankNode('lr1')),
-              DF.quad(DF.blankNode('lr1'), DF.namedNode(Util.RDF + 'first'), DF.namedNode('ex:bla')),
-              DF.quad(DF.blankNode('lr1'), DF.namedNode(Util.RDF + 'rest'), DF.namedNode(Util.RDF + 'nil')),
-
-              DF.quad(DF.blankNode('l0'), DF.namedNode(Util.RDF + 'first'), DF.literal('baz')),
-              DF.quad(DF.blankNode('l0'), DF.namedNode(Util.RDF + 'rest'), DF.namedNode(Util.RDF + 'nil')),
-
-              DF.quad(DF.blankNode('a'), DF.namedNode('http://example.com/foo'), DF.blankNode('lr0')),
+              DF.quad(
+                DF.blankNode('a'),
+                DF.namedNode('http://example.com/foo'),
+                DF.sequence([ DF.sequence([ DF.literal('baz') ]), DF.namedNode('ex:bla') ]),
+              ),
             ]);
           });
 
@@ -2954,15 +2890,11 @@ describe('JsonLdParser', () => {
 }`);
             const output = await arrayifyStream(stream.pipe(parser));
             return expect(output).toBeRdfIsomorphic([
-              DF.quad(DF.blankNode('lr0'), DF.namedNode(Util.RDF + 'first'), DF.namedNode('ex:bla')),
-              DF.quad(DF.blankNode('lr0'), DF.namedNode(Util.RDF + 'rest'), DF.blankNode('lr1')),
-              DF.quad(DF.blankNode('lr1'), DF.namedNode(Util.RDF + 'first'), DF.blankNode('l0')),
-              DF.quad(DF.blankNode('lr1'), DF.namedNode(Util.RDF + 'rest'), DF.namedNode(Util.RDF + 'nil')),
-
-              DF.quad(DF.blankNode('l0'), DF.namedNode(Util.RDF + 'first'), DF.literal('baz')),
-              DF.quad(DF.blankNode('l0'), DF.namedNode(Util.RDF + 'rest'), DF.namedNode(Util.RDF + 'nil')),
-
-              DF.quad(DF.blankNode('a'), DF.namedNode('http://example.com/foo'), DF.blankNode('lr0')),
+              DF.quad(
+                DF.blankNode('a'),
+                DF.namedNode('http://example.com/foo'),
+                DF.sequence([ DF.namedNode('ex:bla'), DF.sequence([ DF.literal('baz') ]) ]),
+              ),
             ]);
           });
         });
@@ -2978,13 +2910,11 @@ describe('JsonLdParser', () => {
 }`);
             const output = await arrayifyStream(stream.pipe(parser));
             expect(output).toBeRdfIsomorphic([
-              DF.quad(DF.blankNode('l0'), DF.namedNode(Util.RDF + 'first'), DF.literal('a')),
-              DF.quad(DF.blankNode('l0'), DF.namedNode(Util.RDF + 'rest'), DF.blankNode('l1')),
-              DF.quad(DF.blankNode('l1'), DF.namedNode(Util.RDF + 'first'), DF.literal('b')),
-              DF.quad(DF.blankNode('l1'), DF.namedNode(Util.RDF + 'rest'), DF.blankNode('l2')),
-              DF.quad(DF.blankNode('l2'), DF.namedNode(Util.RDF + 'first'), DF.literal('c')),
-              DF.quad(DF.blankNode('l2'), DF.namedNode(Util.RDF + 'rest'), DF.namedNode(Util.RDF + 'nil')),
-              DF.quad(DF.blankNode('a'), DF.namedNode('http://ex.org/pred1'), DF.blankNode('l0')),
+              DF.quad(
+                DF.blankNode('a'),
+                DF.namedNode('http://ex.org/pred1'),
+                DF.sequence([ DF.literal('a'), DF.literal('b'), DF.literal('c') ]),
+              ),
             ]);
           });
 
@@ -2998,7 +2928,7 @@ describe('JsonLdParser', () => {
 }`);
             const output = await arrayifyStream(stream.pipe(parser));
             expect(output).toBeRdfIsomorphic([
-              DF.quad(DF.blankNode(), DF.namedNode('http://ex.org/pred1'), DF.namedNode(Util.RDF + 'nil')),
+              DF.quad(DF.blankNode(), DF.namedNode('http://ex.org/pred1'), DF.sequence([])),
             ]);
           });
 
@@ -3013,13 +2943,11 @@ describe('JsonLdParser', () => {
 }`);
             const output = await arrayifyStream(stream.pipe(parser));
             expect(output).toBeRdfIsomorphic([
-              DF.quad(DF.blankNode('l0'), DF.namedNode(Util.RDF + 'first'), DF.literal('a')),
-              DF.quad(DF.blankNode('l0'), DF.namedNode(Util.RDF + 'rest'), DF.blankNode('l1')),
-              DF.quad(DF.blankNode('l1'), DF.namedNode(Util.RDF + 'first'), DF.literal('b')),
-              DF.quad(DF.blankNode('l1'), DF.namedNode(Util.RDF + 'rest'), DF.blankNode('l2')),
-              DF.quad(DF.blankNode('l2'), DF.namedNode(Util.RDF + 'first'), DF.literal('c')),
-              DF.quad(DF.blankNode('l2'), DF.namedNode(Util.RDF + 'rest'), DF.namedNode(Util.RDF + 'nil')),
-              DF.quad(DF.namedNode('http://ex.org/myid'), DF.namedNode('http://ex.org/pred1'), DF.blankNode('l0')),
+              DF.quad(
+                DF.namedNode('http://ex.org/myid'),
+                DF.namedNode('http://ex.org/pred1'),
+                DF.sequence([ DF.literal('a'), DF.literal('b'), DF.literal('c') ]),
+              ),
             ]);
           });
 
@@ -3034,13 +2962,11 @@ describe('JsonLdParser', () => {
 }`);
             const output = await arrayifyStream(stream.pipe(parser));
             expect(output).toBeRdfIsomorphic([
-              DF.quad(DF.blankNode('l0'), DF.namedNode(Util.RDF + 'first'), DF.literal('a')),
-              DF.quad(DF.blankNode('l0'), DF.namedNode(Util.RDF + 'rest'), DF.blankNode('l1')),
-              DF.quad(DF.blankNode('l1'), DF.namedNode(Util.RDF + 'first'), DF.literal('b')),
-              DF.quad(DF.blankNode('l1'), DF.namedNode(Util.RDF + 'rest'), DF.blankNode('l2')),
-              DF.quad(DF.blankNode('l2'), DF.namedNode(Util.RDF + 'first'), DF.literal('c')),
-              DF.quad(DF.blankNode('l2'), DF.namedNode(Util.RDF + 'rest'), DF.namedNode(Util.RDF + 'nil')),
-              DF.quad(DF.namedNode('http://ex.org/myid'), DF.namedNode('http://ex.org/pred1'), DF.blankNode('l0')),
+              DF.quad(
+                DF.namedNode('http://ex.org/myid'),
+                DF.namedNode('http://ex.org/pred1'),
+                DF.sequence([ DF.literal('a'), DF.literal('b'), DF.literal('c') ]),
+              ),
             ]);
           });
         });
@@ -3056,9 +2982,7 @@ describe('JsonLdParser', () => {
 }`);
             const output = await arrayifyStream(stream.pipe(parser));
             expect(output).toBeRdfIsomorphic([
-              DF.quad(DF.blankNode('l0'), DF.namedNode(Util.RDF + 'first'), DF.literal('a')),
-              DF.quad(DF.blankNode('l0'), DF.namedNode(Util.RDF + 'rest'), DF.namedNode(Util.RDF + 'nil')),
-              DF.quad(DF.blankNode('a'), DF.namedNode('http://ex.org/pred1'), DF.blankNode('l0')),
+              DF.quad(DF.blankNode('a'), DF.namedNode('http://ex.org/pred1'), DF.sequence([ DF.literal('a') ])),
             ]);
           });
 
@@ -3073,9 +2997,11 @@ describe('JsonLdParser', () => {
 }`);
             const output = await arrayifyStream(stream.pipe(parser));
             expect(output).toBeRdfIsomorphic([
-              DF.quad(DF.blankNode('l0'), DF.namedNode(Util.RDF + 'first'), DF.literal('a')),
-              DF.quad(DF.blankNode('l0'), DF.namedNode(Util.RDF + 'rest'), DF.namedNode(Util.RDF + 'nil')),
-              DF.quad(DF.namedNode('http://ex.org/myid'), DF.namedNode('http://ex.org/pred1'), DF.blankNode('l0')),
+              DF.quad(
+                DF.namedNode('http://ex.org/myid'),
+                DF.namedNode('http://ex.org/pred1'),
+                DF.sequence([ DF.literal('a') ]),
+              ),
             ]);
           });
 
@@ -3090,9 +3016,11 @@ describe('JsonLdParser', () => {
 }`);
             const output = await arrayifyStream(stream.pipe(parser));
             expect(output).toBeRdfIsomorphic([
-              DF.quad(DF.blankNode('l0'), DF.namedNode(Util.RDF + 'first'), DF.literal('a')),
-              DF.quad(DF.blankNode('l0'), DF.namedNode(Util.RDF + 'rest'), DF.namedNode(Util.RDF + 'nil')),
-              DF.quad(DF.namedNode('http://ex.org/myid'), DF.namedNode('http://ex.org/pred1'), DF.blankNode('l0')),
+              DF.quad(
+                DF.namedNode('http://ex.org/myid'),
+                DF.namedNode('http://ex.org/pred1'),
+                DF.sequence([ DF.literal('a') ]),
+              ),
             ]);
           });
         });
@@ -3108,9 +3036,7 @@ describe('JsonLdParser', () => {
 }`);
             const output = await arrayifyStream(stream.pipe(parser));
             expect(output).toBeRdfIsomorphic([
-              DF.quad(DF.blankNode('l0'), DF.namedNode(Util.RDF + 'first'), DF.literal('a')),
-              DF.quad(DF.blankNode('l0'), DF.namedNode(Util.RDF + 'rest'), DF.namedNode(Util.RDF + 'nil')),
-              DF.quad(DF.blankNode('a'), DF.namedNode('http://ex.org/pred1'), DF.blankNode('l0')),
+              DF.quad(DF.blankNode('a'), DF.namedNode('http://ex.org/pred1'), DF.sequence([ DF.literal('a') ])),
             ]);
           });
 
@@ -3125,9 +3051,11 @@ describe('JsonLdParser', () => {
 }`);
             const output = await arrayifyStream(stream.pipe(parser));
             expect(output).toBeRdfIsomorphic([
-              DF.quad(DF.blankNode('l0'), DF.namedNode(Util.RDF + 'first'), DF.literal('a')),
-              DF.quad(DF.blankNode('l0'), DF.namedNode(Util.RDF + 'rest'), DF.namedNode(Util.RDF + 'nil')),
-              DF.quad(DF.namedNode('http://ex.org/myid'), DF.namedNode('http://ex.org/pred1'), DF.blankNode('l0')),
+              DF.quad(
+                DF.namedNode('http://ex.org/myid'),
+                DF.namedNode('http://ex.org/pred1'),
+                DF.sequence([ DF.literal('a') ]),
+              ),
             ]);
           });
 
@@ -3142,9 +3070,11 @@ describe('JsonLdParser', () => {
 }`);
             const output = await arrayifyStream(stream.pipe(parser));
             expect(output).toBeRdfIsomorphic([
-              DF.quad(DF.blankNode('l0'), DF.namedNode(Util.RDF + 'first'), DF.literal('a')),
-              DF.quad(DF.blankNode('l0'), DF.namedNode(Util.RDF + 'rest'), DF.namedNode(Util.RDF + 'nil')),
-              DF.quad(DF.namedNode('http://ex.org/myid'), DF.namedNode('http://ex.org/pred1'), DF.blankNode('l0')),
+              DF.quad(
+                DF.namedNode('http://ex.org/myid'),
+                DF.namedNode('http://ex.org/pred1'),
+                DF.sequence([ DF.literal('a') ]),
+              ),
             ]);
           });
         });
@@ -3159,13 +3089,11 @@ describe('JsonLdParser', () => {
 }`);
             const output = await arrayifyStream(stream.pipe(parser));
             return expect(output).toBeRdfIsomorphic([
-              DF.quad(DF.blankNode('l0'), DF.namedNode(Util.RDF + 'first'), DF.blankNode('l1')),
-              DF.quad(DF.blankNode('l0'), DF.namedNode(Util.RDF + 'rest'), DF.namedNode(Util.RDF + 'nil')),
-
-              DF.quad(DF.blankNode('l1'), DF.namedNode(Util.RDF + 'first'), DF.literal('baz')),
-              DF.quad(DF.blankNode('l1'), DF.namedNode(Util.RDF + 'rest'), DF.namedNode(Util.RDF + 'nil')),
-
-              DF.quad(DF.namedNode('ex:id'), DF.namedNode('http://example.com/foo'), DF.blankNode('l0')),
+              DF.quad(
+                DF.namedNode('ex:id'),
+                DF.namedNode('http://example.com/foo'),
+                DF.sequence([ DF.sequence([ DF.literal('baz') ]) ]),
+              ),
             ]);
           });
 
@@ -3178,15 +3106,11 @@ describe('JsonLdParser', () => {
 }`);
             const output = await arrayifyStream(stream.pipe(parser));
             return expect(output).toBeRdfIsomorphic([
-              DF.quad(DF.blankNode('l0'), DF.namedNode(Util.RDF + 'first'), DF.blankNode('l1.1')),
-              DF.quad(DF.blankNode('l0'), DF.namedNode(Util.RDF + 'rest'), DF.namedNode(Util.RDF + 'nil')),
-
-              DF.quad(DF.blankNode('l1.1'), DF.namedNode(Util.RDF + 'first'), DF.literal('baz1')),
-              DF.quad(DF.blankNode('l1.1'), DF.namedNode(Util.RDF + 'rest'), DF.blankNode('l1.2')),
-              DF.quad(DF.blankNode('l1.2'), DF.namedNode(Util.RDF + 'first'), DF.literal('baz2')),
-              DF.quad(DF.blankNode('l1.2'), DF.namedNode(Util.RDF + 'rest'), DF.namedNode(Util.RDF + 'nil')),
-
-              DF.quad(DF.namedNode('ex:id'), DF.namedNode('http://example.com/foo'), DF.blankNode('l0')),
+              DF.quad(
+                DF.namedNode('ex:id'),
+                DF.namedNode('http://example.com/foo'),
+                DF.sequence([ DF.sequence([ DF.literal('baz1'), DF.literal('baz2') ]) ]),
+              ),
             ]);
           });
 
@@ -3199,18 +3123,11 @@ describe('JsonLdParser', () => {
 }`);
             const output = await arrayifyStream(stream.pipe(parser));
             return expect(output).toBeRdfIsomorphic([
-              DF.quad(DF.blankNode('l1.1'), DF.namedNode(Util.RDF + 'first'), DF.blankNode('l1.1.1')),
-              DF.quad(DF.blankNode('l1.1'), DF.namedNode(Util.RDF + 'rest'), DF.blankNode('l1.2')),
-              DF.quad(DF.blankNode('l1.2'), DF.namedNode(Util.RDF + 'first'), DF.blankNode('l1.1.2')),
-              DF.quad(DF.blankNode('l1.2'), DF.namedNode(Util.RDF + 'rest'), DF.namedNode(Util.RDF + 'nil')),
-
-              DF.quad(DF.blankNode('l1.1.1'), DF.namedNode(Util.RDF + 'first'), DF.literal('baz1.1')),
-              DF.quad(DF.blankNode('l1.1.1'), DF.namedNode(Util.RDF + 'rest'), DF.namedNode(Util.RDF + 'nil')),
-
-              DF.quad(DF.blankNode('l1.1.2'), DF.namedNode(Util.RDF + 'first'), DF.literal('baz2.1')),
-              DF.quad(DF.blankNode('l1.1.2'), DF.namedNode(Util.RDF + 'rest'), DF.namedNode(Util.RDF + 'nil')),
-
-              DF.quad(DF.namedNode('ex:id'), DF.namedNode('http://example.com/foo'), DF.blankNode('l1.1')),
+              DF.quad(
+                DF.namedNode('ex:id'),
+                DF.namedNode('http://example.com/foo'),
+                DF.sequence([ DF.sequence([ DF.literal('baz1.1') ]), DF.sequence([ DF.literal('baz2.1') ]) ]),
+              ),
             ]);
           });
 
@@ -3223,22 +3140,14 @@ describe('JsonLdParser', () => {
 }`);
             const output = await arrayifyStream(stream.pipe(parser));
             return expect(output).toBeRdfIsomorphic([
-              DF.quad(DF.blankNode('l1.1'), DF.namedNode(Util.RDF + 'first'), DF.blankNode('l1.1.1')),
-              DF.quad(DF.blankNode('l1.1'), DF.namedNode(Util.RDF + 'rest'), DF.blankNode('l1.2')),
-              DF.quad(DF.blankNode('l1.2'), DF.namedNode(Util.RDF + 'first'), DF.blankNode('l1.1.2')),
-              DF.quad(DF.blankNode('l1.2'), DF.namedNode(Util.RDF + 'rest'), DF.namedNode(Util.RDF + 'nil')),
-
-              DF.quad(DF.blankNode('l1.1.1'), DF.namedNode(Util.RDF + 'first'), DF.literal('baz1.1')),
-              DF.quad(DF.blankNode('l1.1.1'), DF.namedNode(Util.RDF + 'rest'), DF.blankNode('l1.1.1-')),
-              DF.quad(DF.blankNode('l1.1.1-'), DF.namedNode(Util.RDF + 'first'), DF.literal('baz1.2')),
-              DF.quad(DF.blankNode('l1.1.1-'), DF.namedNode(Util.RDF + 'rest'), DF.namedNode(Util.RDF + 'nil')),
-
-              DF.quad(DF.blankNode('l1.1.2'), DF.namedNode(Util.RDF + 'first'), DF.literal('baz2.1')),
-              DF.quad(DF.blankNode('l1.1.2'), DF.namedNode(Util.RDF + 'rest'), DF.blankNode('l1.1.2-')),
-              DF.quad(DF.blankNode('l1.1.2-'), DF.namedNode(Util.RDF + 'first'), DF.literal('baz2.2')),
-              DF.quad(DF.blankNode('l1.1.2-'), DF.namedNode(Util.RDF + 'rest'), DF.namedNode(Util.RDF + 'nil')),
-
-              DF.quad(DF.namedNode('ex:id'), DF.namedNode('http://example.com/foo'), DF.blankNode('l1.1')),
+              DF.quad(
+                DF.namedNode('ex:id'),
+                DF.namedNode('http://example.com/foo'),
+                DF.sequence([
+                  DF.sequence([ DF.literal('baz1.1'), DF.literal('baz1.2') ]),
+                  DF.sequence([ DF.literal('baz2.1'), DF.literal('baz2.2') ]),
+                ]),
+              ),
             ]);
           });
 
@@ -3252,14 +3161,13 @@ describe('JsonLdParser', () => {
   }]
 }`);
             const output = await arrayifyStream(stream.pipe(parser));
-            return expect(output).toBeRdfIsomorphic([
-              DF.quad(DF.blankNode('b0'), DF.namedNode('ex:p'), DF.literal('a')),
-
-              DF.quad(DF.blankNode('l0'), DF.namedNode(Util.RDF + 'first'), DF.blankNode('b0')),
-              DF.quad(DF.blankNode('l0'), DF.namedNode(Util.RDF + 'rest'), DF.namedNode(Util.RDF + 'nil')),
-
-              DF.quad(DF.namedNode('ex:id'), DF.namedNode('http://example.com/foo'), DF.blankNode('l0')),
-            ]);
+            // RDF-: rdf-isomorphic does not canonicalize a blank node inside a sequence, so compare by hand
+            expect(output).toHaveLength(2);
+            const inner = output.find((q: any) => q.predicate.value === 'ex:p');
+            expect(inner.object).toEqualRdfTerm(DF.literal('a'));
+            const outer = output.find((q: any) => q.predicate.value === 'http://example.com/foo');
+            expect(outer.subject).toEqualRdfTerm(DF.namedNode('ex:id'));
+            expect(outer.object).toEqualRdfTerm(DF.sequence([ inner.subject ]));
           });
 
           it('with an inner predicate with array with zero elements', async () => {
@@ -3272,12 +3180,12 @@ describe('JsonLdParser', () => {
   }]
 }`);
             const output = await arrayifyStream(stream.pipe(parser));
-            return expect(output).toBeRdfIsomorphic([
-              DF.quad(DF.blankNode('l0'), DF.namedNode(Util.RDF + 'first'), DF.blankNode('b0')),
-              DF.quad(DF.blankNode('l0'), DF.namedNode(Util.RDF + 'rest'), DF.namedNode(Util.RDF + 'nil')),
-
-              DF.quad(DF.namedNode('ex:id'), DF.namedNode('http://example.com/foo'), DF.blankNode('l0')),
-            ]);
+            // RDF-: rdf-isomorphic does not canonicalize a blank node inside a sequence, so compare by hand
+            expect(output).toHaveLength(1);
+            expect(output[0].subject).toEqualRdfTerm(DF.namedNode('ex:id'));
+            expect(output[0].predicate).toEqualRdfTerm(DF.namedNode('http://example.com/foo'));
+            expect(output[0].object.termType).toBe('Sequence');
+            expect(output[0].object.elements.map((element: any) => element.termType)).toEqual([ 'BlankNode' ]);
           });
 
           it('with an empty inner node', async () => {
@@ -3288,12 +3196,12 @@ describe('JsonLdParser', () => {
   "foo": [{}]
 }`);
             const output = await arrayifyStream(stream.pipe(parser));
-            return expect(output).toBeRdfIsomorphic([
-              DF.quad(DF.blankNode('l0'), DF.namedNode(Util.RDF + 'first'), DF.blankNode('b0')),
-              DF.quad(DF.blankNode('l0'), DF.namedNode(Util.RDF + 'rest'), DF.namedNode(Util.RDF + 'nil')),
-
-              DF.quad(DF.namedNode('ex:id'), DF.namedNode('http://example.com/foo'), DF.blankNode('l0')),
-            ]);
+            // RDF-: rdf-isomorphic does not canonicalize a blank node inside a sequence, so compare by hand
+            expect(output).toHaveLength(1);
+            expect(output[0].subject).toEqualRdfTerm(DF.namedNode('ex:id'));
+            expect(output[0].predicate).toEqualRdfTerm(DF.namedNode('http://example.com/foo'));
+            expect(output[0].object.termType).toBe('Sequence');
+            expect(output[0].object.elements.map((element: any) => element.termType)).toEqual([ 'BlankNode' ]);
           });
 
           it('without inner node', async () => {
@@ -3305,7 +3213,7 @@ describe('JsonLdParser', () => {
 }`);
             const output = await arrayifyStream(stream.pipe(parser));
             return expect(output).toBeRdfIsomorphic([
-              DF.quad(DF.namedNode('ex:id'), DF.namedNode('http://example.com/foo'), DF.namedNode(Util.RDF + 'nil')),
+              DF.quad(DF.namedNode('ex:id'), DF.namedNode('http://example.com/foo'), DF.sequence([])),
             ]);
           });
         });
@@ -3322,11 +3230,7 @@ describe('JsonLdParser', () => {
 }`);
             const output = await arrayifyStream(stream.pipe(parser));
             return expect(output).toBeRdfIsomorphic([
-              DF.quad(DF.blankNode('l0'), DF.namedNode(Util.RDF + 'first'), DF.literal('baz')),
-              DF.quad(DF.blankNode('l0'), DF.namedNode(Util.RDF + 'rest'), DF.namedNode(Util.RDF + 'nil')),
-
-              DF.quad(DF.blankNode('b0'), DF.namedNode('http://example.com/foo'), DF.blankNode('l0')),
-
+              DF.quad(DF.blankNode('b0'), DF.namedNode('http://example.com/foo'), DF.sequence([ DF.literal('baz') ])),
               DF.quad(DF.namedNode('ex:id'), DF.namedNode('ex:p'), DF.blankNode('b0')),
             ]);
           });
@@ -3342,8 +3246,7 @@ describe('JsonLdParser', () => {
 }`);
             const output = await arrayifyStream(stream.pipe(parser));
             return expect(output).toBeRdfIsomorphic([
-              DF.quad(DF.blankNode('b0'), DF.namedNode('http://example.com/foo'), DF.namedNode(Util.RDF + 'nil')),
-
+              DF.quad(DF.blankNode('b0'), DF.namedNode('http://example.com/foo'), DF.sequence([])),
               DF.quad(DF.namedNode('ex:id'), DF.namedNode('ex:p'), DF.blankNode('b0')),
             ]);
           });
@@ -3363,11 +3266,7 @@ describe('JsonLdParser', () => {
 }`);
             const output = await arrayifyStream(stream.pipe(parser));
             return expect(output).toBeRdfIsomorphic([
-              DF.quad(DF.blankNode('l0'), DF.namedNode(Util.RDF + 'first'), DF.literal('baz')),
-              DF.quad(DF.blankNode('l0'), DF.namedNode(Util.RDF + 'rest'), DF.namedNode(Util.RDF + 'nil')),
-
-              DF.quad(DF.blankNode('b0'), DF.namedNode('http://example.com/foo'), DF.blankNode('l0')),
-
+              DF.quad(DF.blankNode('b0'), DF.namedNode('http://example.com/foo'), DF.sequence([ DF.literal('baz') ])),
               DF.quad(DF.namedNode('ex:id'), DF.namedNode('ex:p'), DF.blankNode('b0')),
             ]);
           });
@@ -3383,8 +3282,7 @@ describe('JsonLdParser', () => {
 }`);
             const output = await arrayifyStream(stream.pipe(parser));
             return expect(output).toBeRdfIsomorphic([
-              DF.quad(DF.blankNode('b0'), DF.namedNode('http://example.com/foo'), DF.namedNode(Util.RDF + 'nil')),
-
+              DF.quad(DF.blankNode('b0'), DF.namedNode('http://example.com/foo'), DF.sequence([])),
               DF.quad(DF.namedNode('ex:id'), DF.namedNode('ex:p'), DF.blankNode('b0')),
             ]);
           });
@@ -3411,9 +3309,7 @@ describe('JsonLdParser', () => {
 }`);
           const output = await arrayifyStream(stream.pipe(parser));
           expect(output).toBeRdfIsomorphic([
-            DF.quad(DF.blankNode('l0'), DF.namedNode(Util.RDF + 'first'), DF.literal('abc')),
-            DF.quad(DF.blankNode('l0'), DF.namedNode(Util.RDF + 'rest'), DF.namedNode(Util.RDF + 'nil')),
-            DF.quad(DF.blankNode('b0'), DF.namedNode('http://ex.org/pred2'), DF.blankNode('l0')),
+            DF.quad(DF.blankNode('b0'), DF.namedNode('http://ex.org/pred2'), DF.sequence([ DF.literal('abc') ])),
             DF.quad(DF.namedNode('http://ex.org/myid'), DF.namedNode('http://ex.org/pred1'), DF.blankNode('b0')),
           ]);
         });
@@ -3435,12 +3331,13 @@ describe('JsonLdParser', () => {
   ],
 }`);
           const output = await arrayifyStream(stream.pipe(parser));
-          expect(output).toBeRdfIsomorphic([
-            DF.quad(DF.blankNode('l0'), DF.namedNode(Util.RDF + 'first'), DF.blankNode('b0')),
-            DF.quad(DF.blankNode('l0'), DF.namedNode(Util.RDF + 'rest'), DF.namedNode(Util.RDF + 'nil')),
-            DF.quad(DF.blankNode('b0'), DF.namedNode('http://ex.org/pred2'), DF.literal('abc')),
-            DF.quad(DF.namedNode('http://ex.org/myid'), DF.namedNode('http://ex.org/pred1'), DF.blankNode('l0')),
-          ]);
+          // RDF-: rdf-isomorphic does not canonicalize a blank node inside a sequence, so compare by hand
+          expect(output).toHaveLength(2);
+          const inner = output.find((q: any) => q.predicate.value === 'http://ex.org/pred2');
+          expect(inner.object).toEqualRdfTerm(DF.literal('abc'));
+          const outer = output.find((q: any) => q.predicate.value === 'http://ex.org/pred1');
+          expect(outer.subject).toEqualRdfTerm(DF.namedNode('http://ex.org/myid'));
+          expect(outer.object).toEqualRdfTerm(DF.sequence([ inner.subject ]));
         });
       });
 
@@ -6778,13 +6675,11 @@ describe('JsonLdParser', () => {
   "p": [ "a", "b", "c" ],
 }`);
             return expect(await arrayifyStream(stream.pipe(parser))).toBeRdfIsomorphic([
-              DF.quad(DF.blankNode('l1'), DF.namedNode(Util.RDF + 'first'), DF.literal('a')),
-              DF.quad(DF.blankNode('l1'), DF.namedNode(Util.RDF + 'rest'), DF.blankNode('l2')),
-              DF.quad(DF.blankNode('l2'), DF.namedNode(Util.RDF + 'first'), DF.literal('b')),
-              DF.quad(DF.blankNode('l2'), DF.namedNode(Util.RDF + 'rest'), DF.blankNode('l3')),
-              DF.quad(DF.blankNode('l3'), DF.namedNode(Util.RDF + 'first'), DF.literal('c')),
-              DF.quad(DF.blankNode('l3'), DF.namedNode(Util.RDF + 'rest'), DF.namedNode(Util.RDF + 'nil')),
-              DF.quad(DF.namedNode('http://ex.org/myid'), DF.blankNode('p'), DF.blankNode('l1')),
+              DF.quad(
+                DF.namedNode('http://ex.org/myid'),
+                DF.blankNode('p'),
+                DF.sequence([ DF.literal('a'), DF.literal('b'), DF.literal('c') ]),
+              ),
             ]);
           });
 
@@ -6798,13 +6693,11 @@ describe('JsonLdParser', () => {
   "p": { "@list": [ "a", "b", "c" ] },
 }`);
             return expect(await arrayifyStream(stream.pipe(parser))).toBeRdfIsomorphic([
-              DF.quad(DF.blankNode('l1'), DF.namedNode(Util.RDF + 'first'), DF.literal('a')),
-              DF.quad(DF.blankNode('l1'), DF.namedNode(Util.RDF + 'rest'), DF.blankNode('l2')),
-              DF.quad(DF.blankNode('l2'), DF.namedNode(Util.RDF + 'first'), DF.literal('b')),
-              DF.quad(DF.blankNode('l2'), DF.namedNode(Util.RDF + 'rest'), DF.blankNode('l3')),
-              DF.quad(DF.blankNode('l3'), DF.namedNode(Util.RDF + 'first'), DF.literal('c')),
-              DF.quad(DF.blankNode('l3'), DF.namedNode(Util.RDF + 'rest'), DF.namedNode(Util.RDF + 'nil')),
-              DF.quad(DF.namedNode('http://ex.org/myid'), DF.blankNode('p'), DF.blankNode('l1')),
+              DF.quad(
+                DF.namedNode('http://ex.org/myid'),
+                DF.blankNode('p'),
+                DF.sequence([ DF.literal('a'), DF.literal('b'), DF.literal('c') ]),
+              ),
             ]);
           });
         });
@@ -6962,13 +6855,11 @@ describe('JsonLdParser', () => {
   "http://ex.org/pred1": { "myList": [ "a", "b", "c" ] }
 }`);
           return expect(await arrayifyStream(stream.pipe(parser))).toBeRdfIsomorphic([
-            DF.quad(DF.blankNode('l0'), DF.namedNode(Util.RDF + 'first'), DF.literal('a')),
-            DF.quad(DF.blankNode('l0'), DF.namedNode(Util.RDF + 'rest'), DF.blankNode('l1')),
-            DF.quad(DF.blankNode('l1'), DF.namedNode(Util.RDF + 'first'), DF.literal('b')),
-            DF.quad(DF.blankNode('l1'), DF.namedNode(Util.RDF + 'rest'), DF.blankNode('l2')),
-            DF.quad(DF.blankNode('l2'), DF.namedNode(Util.RDF + 'first'), DF.literal('c')),
-            DF.quad(DF.blankNode('l2'), DF.namedNode(Util.RDF + 'rest'), DF.namedNode(Util.RDF + 'nil')),
-            DF.quad(DF.blankNode('a'), DF.namedNode('http://ex.org/pred1'), DF.blankNode('l0')),
+            DF.quad(
+              DF.blankNode('a'),
+              DF.namedNode('http://ex.org/pred1'),
+              DF.sequence([ DF.literal('a'), DF.literal('b'), DF.literal('c') ]),
+            ),
           ]);
         });
 

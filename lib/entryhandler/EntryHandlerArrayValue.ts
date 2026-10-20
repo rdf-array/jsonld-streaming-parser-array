@@ -108,36 +108,16 @@ export class EntryHandlerArrayValue implements IEntryHandler<boolean> {
 
   protected async handleListElement(parsingContext: ParsingContext, util: Util, value: RDF.Term | null,
                                     valueOriginal: any, depth: number, listRootKeys: string[], listRootDepth: number) {
-    // Buffer our value as an RDF list using the listRootKey as predicate
+    // RDF-: buffer the element; the list becomes one sequence term when the stack depth decreases
     let listPointer = parsingContext.listPointerStack[depth];
+    if (!listPointer) {
+      listPointer = { elements: [], listRootDepth };
+    }
 
     if (valueOriginal !== null && (await util.unaliasKeywords(valueOriginal, listRootKeys, depth))['@value'] !== null) {
-      if (!listPointer || !listPointer.value) {
-        const linkTerm: RDF.BlankNode = util.dataFactory.blankNode();
-        listPointer = { value: linkTerm, listRootDepth, listId: linkTerm };
-      } else {
-        // rdf:rest links are always emitted before the next element,
-        // as the blank node identifier is only created at that point.
-        // Because of this reason, the final rdf:nil is emitted when the stack depth is decreased.
-        const newLinkTerm: RDF.Term = util.dataFactory.blankNode();
-        parsingContext.emitQuad(depth, util.dataFactory.quad(listPointer.value, util.rdfRest, newLinkTerm,
-          util.getDefaultGraph()));
-
-        // Update the list pointer for the next element
-        listPointer.value = newLinkTerm;
-      }
-
-      // Emit a list element for the current value
-      // Omit rdf:first if the value is invalid
+      // A value that is invalid in RDF (null) is skipped: a sequence has no empty slot like an rdf:first-less list node
       if (value) {
-        parsingContext.emitQuad(depth, util.dataFactory.quad(<RDF.Term>listPointer.value, util.rdfFirst, value,
-          util.getDefaultGraph()));
-      }
-    } else {
-      // A falsy list element if found.
-      // Mark it as an rdf:nil list until another valid list element comes in
-      if (!listPointer) {
-        listPointer = { listRootDepth, listId: util.rdfNil };
+        listPointer.elements.push(value);
       }
     }
 

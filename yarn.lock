@@ -538,17 +538,9 @@
     "@jridgewell/resolve-uri" "^3.1.0"
     "@jridgewell/sourcemap-codec" "^1.4.14"
 
-"@rdfjs/types@*", "@rdfjs/types@^2.0.0":
-  version "2.0.0"
-  resolved "https://registry.yarnpkg.com/@rdfjs/types/-/types-2.0.0.tgz#b360e8892728f6e6345fc5adbdbfe2acde82c8cd"
-  integrity sha512-bHIjRZ6wuQQY/47dKfGI9fCs9/gs83IgHnoPsAgEIj/ASFTl3Eo4SWIPMC0F1B0LqhrapQb1HaakuD6ikpTDEQ==
-  dependencies:
-    "@types/node" "*"
-
-"@rdfjs/types@^1.0.0", "@rdfjs/types@^1.1.0":
-  version "1.1.2"
-  resolved "https://registry.yarnpkg.com/@rdfjs/types/-/types-1.1.2.tgz#9c2f9848c44c26d383bed2a808571de3b93b808d"
-  integrity sha512-wqpOJK1QCbmsGNtyzYnojPU8gRDPid2JO0Q0kMtb4j65xhCK880cnKAfEOwC+dX85VJcCByQx5zOwyyfCjDJsg==
+"@rdfjs/types@*", "@rdfjs/types@^1.1.0", "@rdfjs/types@^2.0.0", "@rdfjs/types@github:rdf-array/types-array#rdf-sequences":
+  version "2.0.1"
+  resolved "https://codeload.github.com/rdf-array/types-array/tar.gz/a68a2aaf0e40be543d503881ac21a57351605d9e"
   dependencies:
     "@types/node" "*"
 
@@ -3181,17 +3173,9 @@ randombytes@^2.1.0:
   dependencies:
     safe-buffer "^5.1.0"
 
-rdf-data-factory@^1.0.1, rdf-data-factory@^1.1.0:
-  version "1.1.3"
-  resolved "https://registry.yarnpkg.com/rdf-data-factory/-/rdf-data-factory-1.1.3.tgz#11b39e0c80e51bca83828b2ddaa686f733be966f"
-  integrity sha512-ny6CI7m2bq4lfQQmDYvcb2l1F9KtGwz9chipX4oWu2aAtVoXjb7k3d8J1EsgAsEbMXnBipB/iuRen5H2fwRWWQ==
-  dependencies:
-    "@rdfjs/types" "^1.0.0"
-
-rdf-data-factory@^2.0.0:
-  version "2.0.1"
-  resolved "https://registry.yarnpkg.com/rdf-data-factory/-/rdf-data-factory-2.0.1.tgz#d45895e5b3a7e940a01deade5dee9b313f979134"
-  integrity sha512-qpCmbtuCjdH5I2vnn+RpdAcWr32RKOv0ATKM4A2Df+d4yRk1YWiBnAY/S6ndxxY90bb5Ig9458I6Tlytozu5eg==
+rdf-data-factory@^1.0.1, rdf-data-factory@^1.1.0, rdf-data-factory@^2.0.0, "rdf-data-factory@github:rdf-array/rdf-data-factory-array#rdf-sequences":
+  version "2.1.0"
+  resolved "https://codeload.github.com/rdf-array/rdf-data-factory-array/tar.gz/6912f4ceb763bf4d3a23f44b4d3e43a7f8f52903"
   dependencies:
     "@rdfjs/types" "^2.0.0"
 
@@ -3242,20 +3226,11 @@ rdf-quad@^1.5.0:
     rdf-literal "^1.2.0"
     rdf-string "^1.5.0"
 
-rdf-string@^1.5.0, rdf-string@^1.6.0:
-  version "1.6.3"
-  resolved "https://registry.yarnpkg.com/rdf-string/-/rdf-string-1.6.3.tgz#5c3173fad13e6328698277fb8ff151e3423282ab"
-  integrity sha512-HIVwQ2gOqf+ObsCLSUAGFZMIl3rh9uGcRf1KbM85UDhKqP+hy6qj7Vz8FKt3GA54RiThqK3mNcr66dm1LP0+6g==
+rdf-string@^1.5.0, rdf-string@^1.6.0, rdf-string@^2.0.0, "rdf-string@github:rdf-array/rdf-string-array#rdf-sequences":
+  version "2.0.1"
+  resolved "https://codeload.github.com/rdf-array/rdf-string-array/tar.gz/6398fd15bce53eefc4435dd1b22a3b458b74a841"
   dependencies:
-    "@rdfjs/types" "*"
-    rdf-data-factory "^1.1.0"
-
-rdf-string@^2.0.0:
-  version "2.0.0"
-  resolved "https://registry.yarnpkg.com/rdf-string/-/rdf-string-2.0.0.tgz#4b459c0efa37cb7621a400c315540d7359911937"
-  integrity sha512-qxhoVZahUlRuWw1XPwwkT6W1syFNhtoexZDy139FaEyMDEJSiOMaffCe3pgEyBYapnOGDvHjL/zR1D+I8a9vAg==
-  dependencies:
-    rdf-data-factory "^2.0.0"
+    rdf-data-factory "github:rdf-array/rdf-data-factory-array#rdf-sequences"
 
 rdf-terms@^1.7.0:
   version "1.11.0"

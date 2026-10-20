@@ -20,9 +20,6 @@ export class Util {
   public static readonly RDF: string = 'http://www.w3.org/1999/02/22-rdf-syntax-ns#';
 
   public readonly dataFactory: RDF.DataFactory<RDF.BaseQuad>;
-  public readonly rdfFirst: RDF.NamedNode;
-  public readonly rdfRest: RDF.NamedNode;
-  public readonly rdfNil: RDF.NamedNode;
   public readonly rdfType: RDF.NamedNode;
   public readonly rdfJson: RDF.NamedNode;
 
@@ -32,11 +29,20 @@ export class Util {
     this.parsingContext = options.parsingContext;
     this.dataFactory = options.dataFactory || new DataFactory();
 
-    this.rdfFirst = this.dataFactory.namedNode(Util.RDF + 'first');
-    this.rdfRest = this.dataFactory.namedNode(Util.RDF + 'rest');
-    this.rdfNil = this.dataFactory.namedNode(Util.RDF + 'nil');
     this.rdfType = this.dataFactory.namedNode(Util.RDF + 'type');
     this.rdfJson = this.dataFactory.namedNode(Util.RDF + 'JSON');
+  }
+
+  /**
+   * RDF-: create a sequence term, which needs a data factory with sequence() such as rdf-data-factory-array.
+   * @param {Term[]} elements The elements of the sequence.
+   * @return {Sequence} A sequence term.
+   */
+  public sequence(elements: RDF.Term[]): RDF.Sequence {
+    if (!this.dataFactory.sequence) {
+      throw new Error('The data factory has no sequence(): RDF- needs rdf-data-factory-array');
+    }
+    return this.dataFactory.sequence(elements);
   }
 
   /**
@@ -241,7 +247,7 @@ export class Util {
         // Empty context-based lists are emitted at this place, because our streaming algorithm doesn't detect those.
         if ('@list' in Util.getContextValueContainer(context, key)) {
           if (value.length === 0) {
-            return [ this.rdfNil ];
+            return [ this.sequence([]) ]; // RDF-: the empty sequence
           } else {
             return this.parsingContext.idStack[depth + 1] || [];
           }
@@ -407,7 +413,7 @@ export class Util {
         // Empty anonymous lists are emitted at this place, because our streaming algorithm doesn't detect those.
         if (Array.isArray(listValue)) {
           if (listValue.length === 0) {
-            return [ this.rdfNil ];
+            return [ this.sequence([]) ]; // RDF-: the empty sequence
           } else {
             return this.parsingContext.idStack[depth + 1] || [];
           }

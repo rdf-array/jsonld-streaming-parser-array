@@ -200,18 +200,14 @@ export class JsonLdParser extends Transform implements RDF.Sink<EventEmitter, RD
     // When we go up the stack, emit all unidentified values
     // We need to do this before the new job, because the new job may require determined values from the flushed jobs.
     if (lastDepthCheck && depth < this.lastDepth) {
-      // Check if we had any RDF lists that need to be terminated with an rdf:nil
+      // RDF-: check if we had any lists that are now complete, and make each one sequence term
       const listPointer = this.parsingContext.listPointerStack[this.lastDepth];
       if (listPointer) {
-        // Terminate the list if the had at least one value
-        if (listPointer.value) {
-          this.push(this.util.dataFactory.quad(listPointer.value, this.util.rdfRest, this.util.rdfNil,
-            this.util.getDefaultGraph()));
-        }
+        const listId = this.util.sequence(listPointer.elements);
 
         // Add the list id to the id stack, so it can be used higher up in the stack
-        (<any> listPointer.listId).listHead = true;
-        this.parsingContext.idStack[listPointer.listRootDepth + 1] = [ listPointer.listId ];
+        (<any> listId).listHead = true;
+        this.parsingContext.idStack[listPointer.listRootDepth + 1] = [ listId ];
 
         this.parsingContext.listPointerStack.splice(this.lastDepth, 1);
       }

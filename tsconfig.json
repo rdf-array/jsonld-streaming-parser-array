@@ -14,7 +14,9 @@
     "inlineSources": true,
     "declaration": true,
     "importHelpers": false,
-    "strictNullChecks": true
+    "strictNullChecks": true,
+    "outDir": "dist",
+    "rootDir": "."
   },
   "include": [
     "index.ts",
