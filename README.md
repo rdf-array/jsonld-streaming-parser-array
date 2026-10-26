@@ -1,6 +1,6 @@
 <img src=".github/rdf-array-logo.png" alt="[jsonld-streaming-parser]" width="96" align="right">
 
-# jsonld-streaming-parser-array: jsonld-streaming-parser for RDF-
+# jsonld-streaming-parser-array: jsonld-streaming-parser for rdf-array
 
 **RDF-** fork of [jsonld-streaming-parser](https://github.com/rubensworks/streaming-jsonld-parser.js): a JSON-LD
 `@list` (or a value of a property with `@container: @list`) becomes one **sequence** term (`termType: "Sequence"`,

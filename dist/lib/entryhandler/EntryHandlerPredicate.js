@@ -154,7 +154,7 @@ class EntryHandlerPredicate {
                         if (listValueContainer || value['@list']) {
                             if ((listValueContainer && !Array.isArray(value) && !value['@list'])
                                 || (value['@list'] && !Array.isArray(value['@list']))) {
-                                // RDF-: the single element becomes a sequence of one
+                                // rdf-array: the single element becomes a sequence of one
                                 object = util.sequence([object]);
                             }
                             // Lists are not allowed in @reverse'd properties

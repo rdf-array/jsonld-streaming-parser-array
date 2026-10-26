@@ -88,7 +88,7 @@ class EntryHandlerArrayValue {
         }
     }
     async handleListElement(parsingContext, util, value, valueOriginal, depth, listRootKeys, listRootDepth) {
-        // RDF-: buffer the element; the list becomes one sequence term when the stack depth decreases
+        // rdf-array: buffer the element; the list becomes one sequence term when the stack depth decreases
         let listPointer = parsingContext.listPointerStack[depth];
         if (!listPointer) {
             listPointer = { elements: [], listRootDepth };

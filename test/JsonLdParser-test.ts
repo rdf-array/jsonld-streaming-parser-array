@@ -3161,7 +3161,7 @@ describe('JsonLdParser', () => {
   }]
 }`);
             const output = await arrayifyStream(stream.pipe(parser));
-            // RDF-: rdf-isomorphic does not canonicalize a blank node inside a sequence, so compare by hand
+            // rdf-array: rdf-isomorphic does not canonicalize a blank node inside a sequence, so compare by hand
             expect(output).toHaveLength(2);
             const inner = output.find((q: any) => q.predicate.value === 'ex:p');
             expect(inner.object).toEqualRdfTerm(DF.literal('a'));
@@ -3180,7 +3180,7 @@ describe('JsonLdParser', () => {
   }]
 }`);
             const output = await arrayifyStream(stream.pipe(parser));
-            // RDF-: rdf-isomorphic does not canonicalize a blank node inside a sequence, so compare by hand
+            // rdf-array: rdf-isomorphic does not canonicalize a blank node inside a sequence, so compare by hand
             expect(output).toHaveLength(1);
             expect(output[0].subject).toEqualRdfTerm(DF.namedNode('ex:id'));
             expect(output[0].predicate).toEqualRdfTerm(DF.namedNode('http://example.com/foo'));
@@ -3196,7 +3196,7 @@ describe('JsonLdParser', () => {
   "foo": [{}]
 }`);
             const output = await arrayifyStream(stream.pipe(parser));
-            // RDF-: rdf-isomorphic does not canonicalize a blank node inside a sequence, so compare by hand
+            // rdf-array: rdf-isomorphic does not canonicalize a blank node inside a sequence, so compare by hand
             expect(output).toHaveLength(1);
             expect(output[0].subject).toEqualRdfTerm(DF.namedNode('ex:id'));
             expect(output[0].predicate).toEqualRdfTerm(DF.namedNode('http://example.com/foo'));
@@ -3331,7 +3331,7 @@ describe('JsonLdParser', () => {
   ],
 }`);
           const output = await arrayifyStream(stream.pipe(parser));
-          // RDF-: rdf-isomorphic does not canonicalize a blank node inside a sequence, so compare by hand
+          // rdf-array: rdf-isomorphic does not canonicalize a blank node inside a sequence, so compare by hand
           expect(output).toHaveLength(2);
           const inner = output.find((q: any) => q.predicate.value === 'http://ex.org/pred2');
           expect(inner.object).toEqualRdfTerm(DF.literal('abc'));

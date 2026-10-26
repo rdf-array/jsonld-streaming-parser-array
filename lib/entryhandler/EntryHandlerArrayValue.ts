@@ -108,7 +108,7 @@ export class EntryHandlerArrayValue implements IEntryHandler<boolean> {
 
   protected async handleListElement(parsingContext: ParsingContext, util: Util, value: RDF.Term | null,
                                     valueOriginal: any, depth: number, listRootKeys: string[], listRootDepth: number) {
-    // RDF-: buffer the element; the list becomes one sequence term when the stack depth decreases
+    // rdf-array: buffer the element; the list becomes one sequence term when the stack depth decreases
     let listPointer = parsingContext.listPointerStack[depth];
     if (!listPointer) {
       listPointer = { elements: [], listRootDepth };

@@ -19,7 +19,7 @@ export declare class Util {
         dataFactory?: RDF.DataFactory<RDF.BaseQuad>;
     });
     /**
-     * RDF-: create a sequence term, which needs a data factory with sequence() such as rdf-data-factory-array.
+     * rdf-array: create a sequence term, which needs a data factory with sequence() such as rdf-data-factory-array.
      * @param {Term[]} elements The elements of the sequence.
      * @return {Sequence} A sequence term.
      */

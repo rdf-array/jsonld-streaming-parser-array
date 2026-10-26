@@ -926,23 +926,23 @@ describe('Util', () => {
           return expect(await util.valueToTerm(context, 'key', { '@list': [1, 2] }, 0, [])).toEqual([]);
         });
 
-        it('should return the empty sequence for an empty anonymous list (RDF-)', async () => {
+        it('should return the empty sequence for an empty anonymous list (rdf-array)', async () => {
           return expect(await util.valueToTerm(context, 'key', { '@list': [] }, 0, []))
             .toEqualRdfTermArray([DF.sequence([])]);
         });
 
-        it('should return the empty sequence for an empty list (RDF-)', async () => {
+        it('should return the empty sequence for an empty list (rdf-array)', async () => {
           context = new JsonLdContextNormalized({ key: { '@container': { '@list': true } } });
           return expect(await util.valueToTerm(context, 'key', [], 0, []))
             .toEqualRdfTermArray([DF.sequence([])]);
         });
 
-        it('should fail without sequence() on the data factory (RDF-)', async () => {
+        it('should fail without sequence() on the data factory (rdf-array)', async () => {
           const dataFactory: any = new DataFactory();
           dataFactory.sequence = undefined;
           const utilNoSequence = new Util({ parsingContext: <any> {}, dataFactory });
           return expect(() => utilNoSequence.sequence([]))
-            .toThrow('The data factory has no sequence(): RDF- needs rdf-data-factory-array');
+            .toThrow('The data factory has no sequence(): rdf-array needs rdf-data-factory-array');
         });
 
         it('should return null for a list with null elements', async () => {

@@ -33,7 +33,7 @@ describe('EntryHandlerArrayValue', () => {
       jest.spyOn(handler, <any> 'handleListElement');
       await handler.handle(parsingContext, util, 0, [ undefined, 'parentKey', '@list', 0 ], "someValue", 3);
       expect((<any> handler).handleListElement).toHaveBeenCalledTimes(1);
-      // RDF-: the element is buffered until the list closes, nothing is emitted yet
+      // rdf-array: the element is buffered until the list closes, nothing is emitted yet
       expect(parsingContext.emittedQuads).toEqual([]);
       expect(parsingContext.listPointerStack[3]).toEqual({ elements: [ DF.literal('someValue') ], listRootDepth: 1 });
     });

@@ -144,7 +144,7 @@ class JsonLdParser extends readable_stream_1.Transform {
         // When we go up the stack, emit all unidentified values
         // We need to do this before the new job, because the new job may require determined values from the flushed jobs.
         if (lastDepthCheck && depth < this.lastDepth) {
-            // RDF-: check if we had any lists that are now complete, and make each one sequence term
+            // rdf-array: check if we had any lists that are now complete, and make each one sequence term
             const listPointer = this.parsingContext.listPointerStack[this.lastDepth];
             if (listPointer) {
                 const listId = this.util.sequence(listPointer.elements);

@@ -17,13 +17,13 @@ class Util {
         this.rdfJson = this.dataFactory.namedNode(Util.RDF + 'JSON');
     }
     /**
-     * RDF-: create a sequence term, which needs a data factory with sequence() such as rdf-data-factory-array.
+     * rdf-array: create a sequence term, which needs a data factory with sequence() such as rdf-data-factory-array.
      * @param {Term[]} elements The elements of the sequence.
      * @return {Sequence} A sequence term.
      */
     sequence(elements) {
         if (!this.dataFactory.sequence) {
-            throw new Error('The data factory has no sequence(): RDF- needs rdf-data-factory-array');
+            throw new Error('The data factory has no sequence(): rdf-array needs rdf-data-factory-array');
         }
         return this.dataFactory.sequence(elements);
     }
@@ -211,7 +211,7 @@ class Util {
                     // Empty context-based lists are emitted at this place, because our streaming algorithm doesn't detect those.
                     if ('@list' in Util.getContextValueContainer(context, key)) {
                         if (value.length === 0) {
-                            return [this.sequence([])]; // RDF-: the empty sequence
+                            return [this.sequence([])]; // rdf-array: the empty sequence
                         }
                         else {
                             return this.parsingContext.idStack[depth + 1] || [];
@@ -351,7 +351,7 @@ class Util {
                     // Empty anonymous lists are emitted at this place, because our streaming algorithm doesn't detect those.
                     if (Array.isArray(listValue)) {
                         if (listValue.length === 0) {
-                            return [this.sequence([])]; // RDF-: the empty sequence
+                            return [this.sequence([])]; // rdf-array: the empty sequence
                         }
                         else {
                             return this.parsingContext.idStack[depth + 1] || [];
