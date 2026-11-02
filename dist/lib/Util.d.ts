@@ -23,7 +23,12 @@ export declare class Util {
      * @param {Term[]} elements The elements of the sequence.
      * @return {Sequence} A sequence term.
      */
-    sequence(elements: RDF.Term[]): RDF.Sequence;
+    sequence(elements: RDF.SequenceElement[]): RDF.Sequence;
+    /**
+     * rdf-undef: the empty slot of a sequence, which needs a data factory with undef() such as rdf-data-factory-array.
+     * @return {Undef} The empty slot.
+     */
+    undef(): RDF.Undef;
     /**
      * Helper function to get the value of a context entry,
      * or fallback to a certain value.

@@ -17,6 +17,7 @@ class ParsingContext {
         this.produceGeneralizedRdf = !!options.produceGeneralizedRdf;
         this.allowSubjectList = !!options.allowSubjectList;
         this.processingMode = options.processingMode || JsonLdParser_1.JsonLdParser.DEFAULT_PROCESSING_MODE;
+        this.undefSlots = !!options.undefSlots;
         this.strictValues = !!options.strictValues;
         this.validateValueIndexes = !!options.validateValueIndexes;
         this.defaultGraph = options.defaultGraph;

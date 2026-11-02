@@ -28,6 +28,16 @@ class Util {
         return this.dataFactory.sequence(elements);
     }
     /**
+     * rdf-undef: the empty slot of a sequence, which needs a data factory with undef() such as rdf-data-factory-array.
+     * @return {Undef} The empty slot.
+     */
+    undef() {
+        if (!this.dataFactory.undef) {
+            throw new Error('The data factory has no undef(): the undefSlots option needs rdf-data-factory-array');
+        }
+        return this.dataFactory.undef();
+    }
+    /**
      * Helper function to get the value of a context entry,
      * or fallback to a certain value.
      * @param {JsonLdContextNormalized} context A JSON-LD context.

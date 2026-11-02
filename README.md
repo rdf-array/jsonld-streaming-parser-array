@@ -9,6 +9,14 @@ order, `()` for an empty list, instead of an `rdf:first`/`rdf:rest` ladder endin
 nested sequences. The values are buffered while the list is read and the triple holding the sequence is emitted
 when the list closes, so parsing stays streaming at the granularity of a list. A value that converts to no RDF
 term (for example one with an invalid `@type`) is skipped, where RDF 1.1 left a list node without `rdf:first`.
+**rdf-undef** (branch `rdf-undef`; [rdf-undef.md](https://github.com/rdf-array/rdf-array/blob/rdf-undef/docs/rdf-undef.md)):
+the option `undefSlots: true` reads a `null` that is a member of a list's array as the empty slot of the sequence,
+`{ "@list": [ 1, null ] }` as `( 1 undef )`, at any depth and in a `@container: @list` term's array; the data factory
+must then provide `undef()`. Other nulls stay dropped (`"p": null`, `"@list": null`, `[ 1, null ]` outside a list), and
+so does `{ "@value": null }`. Without the option a null in a list is dropped as JSON-LD 1.1 says. Tests:
+`test/UndefSlots-test.ts`, 1616 → 1625, all passing. `npm run spec` was not run on this branch, because it uses stock
+`rdf-test-suite`; json-ld-api-contrib's slot tests read this parser through its `bin/build.py`.
+
 The data factory must provide `sequence()`. Part of the [comunica-array](https://github.com/rdf-array/comunica-array)
 stack, whose doc/rdf-array.md lists the sibling forks.
 

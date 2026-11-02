@@ -38,11 +38,22 @@ export class Util {
    * @param {Term[]} elements The elements of the sequence.
    * @return {Sequence} A sequence term.
    */
-  public sequence(elements: RDF.Term[]): RDF.Sequence {
+  public sequence(elements: RDF.SequenceElement[]): RDF.Sequence {
     if (!this.dataFactory.sequence) {
       throw new Error('The data factory has no sequence(): rdf-array needs rdf-data-factory-array');
     }
     return this.dataFactory.sequence(elements);
+  }
+
+  /**
+   * rdf-undef: the empty slot of a sequence, which needs a data factory with undef() such as rdf-data-factory-array.
+   * @return {Undef} The empty slot.
+   */
+  public undef(): RDF.Undef {
+    if (!this.dataFactory.undef) {
+      throw new Error('The data factory has no undef(): the undefSlots option needs rdf-data-factory-array');
+    }
+    return this.dataFactory.undef();
   }
 
   /**

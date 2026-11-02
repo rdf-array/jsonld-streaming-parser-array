@@ -40,9 +40,10 @@ export declare class ParsingContext {
         [index: string]: RDF.NamedNode | RDF.BlankNode;
     })[];
     readonly listPointerStack: ({
-        elements: RDF.Term[];
+        elements: RDF.SequenceElement[];
         listRootDepth: number;
     })[];
+    readonly undefSlots: boolean;
     readonly contextTree: ContextTree;
     readonly literalStack: boolean[];
     readonly validationStack: {
