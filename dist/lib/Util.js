@@ -33,7 +33,7 @@ class Util {
      */
     undef() {
         if (!this.dataFactory.undef) {
-            throw new Error('The data factory has no undef(): the undefSlots option needs rdf-data-factory-array');
+            throw new Error('The data factory has no undef(): rdf-undef needs rdf-data-factory-array');
         }
         return this.dataFactory.undef();
     }

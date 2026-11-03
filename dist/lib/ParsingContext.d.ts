@@ -43,7 +43,6 @@ export declare class ParsingContext {
         elements: RDF.SequenceElement[];
         listRootDepth: number;
     })[];
-    readonly undefSlots: boolean;
     readonly contextTree: ContextTree;
     readonly literalStack: boolean[];
     readonly validationStack: {

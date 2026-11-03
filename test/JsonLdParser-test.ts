@@ -2585,7 +2585,7 @@ describe('JsonLdParser', () => {
 }`);
             const output = await arrayifyStream(stream.pipe(parser));
             expect(output).toBeRdfIsomorphic([
-              DF.quad(DF.namedNode('http://ex.org/myid'), DF.namedNode('http://ex.org/pred1'), DF.sequence([])),
+              DF.quad(DF.namedNode('http://ex.org/myid'), DF.namedNode('http://ex.org/pred1'), DF.sequence([ DF.undef() ])),
             ]);
           });
 
@@ -2603,7 +2603,7 @@ describe('JsonLdParser', () => {
               DF.quad(
                 DF.namedNode('http://ex.org/myid'),
                 DF.namedNode('http://ex.org/pred1'),
-                DF.sequence([ DF.literal('a'), DF.literal('b'), DF.literal('c') ]),
+                DF.sequence([ DF.undef(), DF.literal('a'), DF.undef(), DF.literal('b'), DF.undef(), DF.literal('c'), DF.undef() ]),
               ),
             ]);
           });
@@ -2650,7 +2650,7 @@ describe('JsonLdParser', () => {
               DF.quad(
                 DF.namedNode('http://ex.org/myid'),
                 DF.namedNode('http://ex.org/pred1'),
-                DF.sequence([ DF.literal('a'), DF.literal('b'), DF.literal('c') ]),
+                DF.sequence([ DF.undef(), DF.literal('a'), DF.undef(), DF.literal('b'), DF.undef(), DF.literal('c'), DF.undef() ]),
               ),
             ]);
           });
@@ -2681,7 +2681,7 @@ describe('JsonLdParser', () => {
               DF.quad(
                 DF.namedNode('http://ex.org/myid'),
                 DF.namedNode('http://ex.org/pred1'),
-                DF.sequence([ DF.literal('a'), DF.literal('b'), DF.literal('c') ]),
+                DF.sequence([ DF.undef(), DF.literal('a'), DF.undef(), DF.literal('b'), DF.undef(), DF.literal('c'), DF.undef() ]),
               ),
             ]);
           });
@@ -2705,7 +2705,7 @@ describe('JsonLdParser', () => {
             ]);
           });
 
-          it('with a null value should be optimized', async () => {
+          it('with a null value is a slot', async () => {
             const stream = streamifyString(`
 {
   "@context": {
@@ -2716,7 +2716,7 @@ describe('JsonLdParser', () => {
 }`);
             const output = await arrayifyStream(stream.pipe(parser));
             expect(output).toBeRdfIsomorphic([
-              DF.quad(DF.namedNode('http://ex.org/myid'), DF.namedNode('http://ex.org/pred1'), DF.sequence([])),
+              DF.quad(DF.namedNode('http://ex.org/myid'), DF.namedNode('http://ex.org/pred1'), DF.sequence([ DF.undef() ])),
             ]);
           });
 

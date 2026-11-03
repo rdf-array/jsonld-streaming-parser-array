@@ -94,10 +94,8 @@ class EntryHandlerArrayValue {
             listPointer = { elements: [], listRootDepth };
         }
         if (valueOriginal === null) {
-            // rdf-undef: under the undefSlots option a null in a list is the empty slot; otherwise it is dropped, as in JSON-LD 1.1
-            if (parsingContext.undefSlots) {
-                listPointer.elements.push(util.undef());
-            }
+            // rdf-undef: a null in a list is the empty slot
+            listPointer.elements.push(util.undef());
         }
         else if ((await util.unaliasKeywords(valueOriginal, listRootKeys, depth))['@value'] !== null) {
             // A value that is invalid in RDF is skipped

@@ -55,8 +55,6 @@ export class ParsingContext {
   public readonly graphContainerTermStack: ({ [index: string]: RDF.NamedNode | RDF.BlankNode })[];
   // rdf-array: stack of the lists being read (for @list), each buffering its elements until it becomes one sequence term
   public readonly listPointerStack: ({ elements: RDF.SequenceElement[], listRootDepth: number })[];
-  // rdf-undef: whether a null in a list is an empty slot
-  public readonly undefSlots: boolean;
   // Stack of active contexts
   public readonly contextTree: ContextTree;
   // Stack of flags indicating if the node is a literal
@@ -94,7 +92,6 @@ export class ParsingContext {
     this.produceGeneralizedRdf = !!options.produceGeneralizedRdf;
     this.allowSubjectList = !!options.allowSubjectList;
     this.processingMode = options.processingMode || JsonLdParser.DEFAULT_PROCESSING_MODE;
-    this.undefSlots = !!options.undefSlots;
     this.strictValues = !!options.strictValues;
     this.validateValueIndexes = !!options.validateValueIndexes;
     this.defaultGraph = options.defaultGraph;

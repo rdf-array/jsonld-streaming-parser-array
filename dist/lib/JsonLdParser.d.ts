@@ -148,11 +148,6 @@ export interface IJsonLdParserOptions {
      */
     processingMode?: string;
     /**
-     * rdf-undef: read a null in a list as the empty slot of the sequence, so `{ "@list": [ 1, null ] }` is `( 1 undef )`.
-     * By default a null in a list is dropped, as JSON-LD 1.1 says. Needs a data factory with undef().
-     */
-    undefSlots?: boolean;
-    /**
      * By default, JSON-LD requires that
      * all properties (or @id's) that are not URIs,
      * are unknown keywords,
